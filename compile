@@ -1,0 +1,108 @@
+#!/bin/bash
+
+foo=$1
+for (( i=0; i<${#foo}; i++ )); do
+        T=${foo:$i:1}
+        if [ $T == "." ];
+        then
+                EXT=$T
+                pos=$i
+        elif [[ $pos<$i ]]
+        then
+                EXT="$EXT$T"
+        fi
+done
+
+if [ $EXT == ".c" ];
+then    
+        eval "\time -f '%e' gcc -o c $1"        
+        eval "./c"
+elif [ $EXT == ".cpp" ];
+then
+        eval "\time -f '%e' g++ -o cpp $1"
+        eval "./cpp"
+elif [ $EXT == ".cs" ];
+then
+        eval "\time -f '%e' mcs -out:hello.exe $1"
+        eval "mono hello.exe"
+
+elif [ $EXT == ".py" ];
+then
+        eval "\time -f '%e' python3 $1"
+elif [ $EXT == ".java" ];
+then
+        eval "\time -f '%e' javac $1"
+        for (( i=0; i<${#foo}; i++ )); do
+                T2=${foo:$i:1}
+
+                if [ $T2 == "." ];
+                then
+                        break
+                else
+                        EXPR="$EXPR$T2"
+                fi
+        done
+        eval "java $EXPR"
+elif [ $EXT == ".pl" ];
+then
+        eval "\time -f '%e' perl $1"
+        
+elif [ $EXT == ".rb" ];
+then
+        eval "\time -f '%e' ruby $1"
+elif [ $EXT == ".js" ];
+then
+        eval "\time -f '%e' node $1"
+elif [ $EXT == ".ts" ];
+then
+        eval "\time -f '%e' tsc $1"
+        for (( i=0; i<${#foo}; i++ )); do
+                T2=${foo:$i:1}
+
+                if [ $T2 == "." ];
+                then
+                        break
+                else
+                        EXPR="$EXPR$T2"
+                fi
+        done
+        eval "node $EXPR.js"
+
+elif [ $EXT == ".R" ];
+then
+        eval "\time -f '%e' Rscript $1"
+elif [ $EXT == ".php" ];
+then
+        eval "\time -f '%e' php $1"
+elif [ $EXT == ".kt" ];
+then
+        eval "\time -f '%e' kotlinc $1 -include-runtime -d haha.jar"
+        eval "java -jar haha.jar"
+elif [ $EXT == ".swift" ];
+then
+        eval "\time -f '%e' swift $1"
+elif [ $EXT == ".m" ];
+then
+        eval "\time -f '%e' gcc $1 `gnustep-config --objc-flags` -lobjc -lgnustep-base -o haha"
+        eval "./haha"
+elif [ $EXT == ".txt" ];
+then
+        eval "\time -f '%e' sqlite3 work.db < $1"
+
+fi
+
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
+# \time -f '%e'
